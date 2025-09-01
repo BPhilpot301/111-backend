@@ -1,0 +1,34 @@
+--create venv---
+Windows py/python -m venv venv
+
+--activat---
+venv\Scripts\activate
+
+--install flask--
+pip install flask
+
+--install SQLAlchemy--
+pip install SQLAlchemy
+
+--run app--
+py/pyhton server.py
+py/python file_name.py
+
+
+Local host       Port
+http://127.0.0.1:5000
+
+
+when working with data bases
+the data base has tables, SQL, data bases
+the data base we are creating is called budget_manager.db
+      tables
+users        expenses
+  each have collums 
+id,           id, 
+username,     title or name
+password      description
+              amount
+              date
+              category
+              foreign keys
