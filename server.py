@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, jsonify, request
 from sqlalchemy import (
     create_engine,
     Column,
@@ -39,12 +39,55 @@ class Expense(Base):
     date = Column(Date, nullable=False, default=date.today)
     category = Column(Enum("Food", "Education", "Entertainment"), nullable=False)
     user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("User", back_populates="expense")#user.expenses.username
+    user = relationship("User", back_populates="expenses")#user.expenses.username
     # Foreign key to link to user
 
 
 # create tables
 Base.metadata.create_all(engine)
+
+#health check route
+@app.get('/api/health')
+def health_check():
+    return jsonify({"status": "OK"}), 200
+
+
+#user routes
+@app.post('/api/register')
+def register():
+    data = request.get_json()
+    username = data.get("username")#way to extract or get username from the json
+    password = data.get("password")#same as previous line
+
+    #validation
+    existing_user = session.query(User).filter_by(username=username).first()
+    if existing_user is not None:
+        return jsonify({"error": "Username already exists"}), 400
+
+    print(data)
+    print(username)
+    print(password)
+
+    new_user = User(username=username, password=password)#create new user
+    session.add(new_user)#add to the session
+    session.commit()#commit to the database
+
+    return jsonify({"message": "User registered successfully"})
+
+#login
+@app.post("/api/login")
+def login():
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        return jsonify({"error": "Username and password are required"}), 400
+    user = session.query(User).filter_by(username=username).first()
+    if user and user.password == password:
+        return jsonify({"message": "Login successful"}), 200 #successful login
+    
+    return jsonify({"Error": "Invalid username or password"}), 401 #unauthorized
 
 
 
