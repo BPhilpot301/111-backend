@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>About page</h1>
+<div class="card text-bg-dark object-fit-contain border rounded" style="width: 35rem;">
+  <img src="{{ url_for('static', filename='images/bg2.png') }}" class="card-img" alt="black and yellow image">
+  <div class="card-img-overlay">
+    <h5 class="card-title">My name is {{ student.name }}</h5>
+    <p class="card-text">My cohort is {{ student.cohort }}</p>
+    <p class="card-text">The year is {{ student.year }}</p>
+     <p class="card-text">My hobbies are</p>
+        <ul>
+            <li>Gaming</li>
+            <li>Cooking</li>
+            <li>Fishing</li>
+            <li>Swimming</li>
+            <li>Hiking</li>
+            <li>Digital Artwork</li>
+        </ul>
+  </div>
+</div>
+
+
+
+    
+
+{% endblock content %}

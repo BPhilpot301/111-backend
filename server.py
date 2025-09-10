@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request
+from flask import Flask, jsonify, request, render_template
 from sqlalchemy import (
     create_engine,
     Column,
@@ -213,6 +213,60 @@ def delete_expense(expense_id):
     session.commit()
 
     return jsonify({"message": "Expense deleted successfully"}), 200
+
+
+#frontend endpoints
+@app.get("/")
+@app.get("/home")
+@app.get("/index")
+def home():
+    return render_template("home.html")
+
+
+@app.get("/about")
+def about():
+    my_student = {"name": "Britney", "cohort": 59, "year": 2025}
+    return render_template("about.html", student=my_student)
+
+
+@app.get("/students")
+def students_list():
+    students = [
+        {
+            "name": "John Ramos",
+            "age": 33,
+            "cohort": "59",
+            "color": "RGB(206, 0, 0)",
+            "year": "2025",
+            "program": "Full Stack",
+        },
+        {
+            "name": "Courtney Phillips",
+            "age": 26,
+            "cohort": "59",
+            "color": "RGB(8, 150, 55)",
+            "year": "2025",
+            "program": "Full Stack"
+        },
+        {
+            "name": "Tara Shnider",
+            "age": 37,
+            "cohort": "59",
+            "color": "RGB(28, 8, 209)",
+            "year": "2025",
+            "program": "Mobile App Development/IOS"
+        },
+        {
+            "name": "Oma Bounds",
+            "age": 59,
+            "cohort": "59",
+            "color": "RGB(255, 0, 221)",
+            "year": "2025",
+            "program": "Mobile App Development/Android"
+        },
+    ]
+
+    return render_template("students-list.html", students=students)
 
 
 # Ensures the server runs only when this script is executed
